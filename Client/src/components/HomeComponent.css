@@ -68,7 +68,7 @@
   
   .content {
     padding: 20px;
-    background-color: rgb(250, 247, 242);
+    background-color: white;
   }
   
   .content h1 {
@@ -85,14 +85,17 @@
   
   .plants-grid {
     display: flex;
-    gap: 30px;
+    /* gap: 30px; */
+    justify-content: space-between;
     flex-wrap: wrap;
   }
   
   .plant-card {
-    flex: 1 1 calc(33.333% - 20px);
+    flex: 1 1 calc(30% - 20px);
+    max-width: calc(30% - 20px);
     box-sizing: border-box;
-    padding: 5px;
+    padding: 10px;
+    margin-bottom: 60px;
     border: 2px solid #17713e;
     border-radius: 8px;
     /* text-align: center; */
@@ -102,13 +105,13 @@
     max-width: 100%;
     height: auto;
     border-radius: 8px;
-    margin-bottom: 10px;
+    margin-bottom: 5px;
   }
   
   .plant-card h3 {
-    font-size: 2em;
+    font-size: 1.5em;
     font-family: Arial, Narrow, sans-serif;
-    margin: 10px 0;
+    margin: 5px 0;
     color: black;
     /* position: absolute; */
     
@@ -116,19 +119,20 @@
   }
   
   .plant-card p {
-    font-size: 1.3em;
-    margin: 10px 0;
+    font-size: 1.2em;
+    margin: 5px 0;
   }
   
   .plant-card span {
-    font-size: 1.8em;
+    font-size: 1.4em;
     color: rgb(78, 212, 78);
   }
   .view-product-button {
     display: block;
+    margin-top: 5px;
     margin: 10px auto;
     padding: 10px 20px;
-    font-size: 1.6em;
+    font-size: 1em;
     background-color: #2d532f; /* Parrot green color */
     color: white;
     border: none;
