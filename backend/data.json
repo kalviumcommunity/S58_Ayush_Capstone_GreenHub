@@ -1,0 +1,27 @@
+[
+    {
+      "name": "Snake Plant",
+      "description": "Low maintenance indoor plant",
+      "price": 15.99,
+      "category": "Indoor",
+      "in_stock": true,
+      "image": "https://m.media-amazon.com/images/I/615Rdc1mLTL._AC_UF1000,1000_QL80_.jpg"
+    },
+    {
+      "name": "Fiddle Leaf Fig",
+      "description": "Popular indoor tree with large leaves",
+      "price": 29.99,
+      "category": "Indoor",
+      "in_stock": false,
+      "image": "https://www.ugaoo.com/cdn/shop/files/1_cc65c975-7a6f-43d6-bb81-b56520e29bc7.jpg?v=1717308876"
+    },
+    {
+      "name": "Succulent Mix",
+      "description": "Assorted succulent plants",
+      "price": 12.99,
+      "category": "Indoor",
+      "in_stock": true,
+      "image": "https://leafculture.co.uk/cdn/shop/files/Succulent-Mix-A-Single-Succulent-Leaf-Culture-101724811.jpg?v=1704821570&width=3840"
+    }
+  ]
+  
