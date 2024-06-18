@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const { check, validationResult } = require('express-validator');
 const bcrypt = require('bcrypt');
 
+
 const app = express();
 const PORT = process.env.PORT || 5002;
 
