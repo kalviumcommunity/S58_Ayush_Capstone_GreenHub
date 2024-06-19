@@ -26,4 +26,6 @@ Front-End Development.
 
 
 
+Backend Deployed Render Link: https://s58-ayush-capstone-greenhub-11.onrender.com
 
+Frontend Deployed Netlify Link: https://666fa3ed56f07c7b7b1b03cf--spontaneous-shortbread-d0df1d.netlify.app
