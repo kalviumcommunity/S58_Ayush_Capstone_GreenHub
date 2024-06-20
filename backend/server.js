@@ -1,100 +1,55 @@
 require('dotenv').config();
+const cors = require('cors'); 
 const express = require('express');
 const bodyParser = require('body-parser');
-const { check, validationResult } = require('express-validator');
-const bcrypt = require('bcrypt');
-
+const { connectDB, getDBConnectionStatus } = require('./config/db');
+const Plant = require('./model/Plants'); // Import the Plant model
 
 const app = express();
 const PORT = process.env.PORT || 5002;
 
-app.use(bodyParser.json());
+// Connect to MongoDB
+connectDB();
 
-const users = [
-  { email: process.env.USER_EMAIL, password: bcrypt.hashSync(process.env.USER_PASSWORD, 10) },
-  // Add more users as needed
-];
+app.use(bodyParser.json());
+app.use(cors()); 
 
 app.get('/ping', (req, res) => {
   res.send('pong');
 });
 
-// POST endpoint for user authentication
-app.post('/login', [
-  check('email').isEmail(),
-  check('password').isLength({ min: 6 })
-], (req, res) => {
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) {
-    return res.status(400).json({ errors: errors.array() });
+// Endpoint to check database connection status
+app.get('/check-db', (req, res) => {
+  if (getDBConnectionStatus()) {
+    res.status(200).json({ message: 'Connected to DB successfully', status: 200 });
+  } else {
+    res.status(500).json({ message: 'Failed to connect to DB', status: 500 });
   }
-
-  const { email, password } = req.body;
-  console.log('Received email:', email);
-  console.log('Received password:', password);
-
-  // Find user by email
-  const user = users.find(user => user.email === email);
-
-  if (!user) {
-    // User not found
-    console.log('User not found');
-    return res.status(404).json({ error: 'User not found' });
-  }
-
-  // Check if password matches
-  bcrypt.compare(password, user.password, (err, isMatch) => {
-    if (err) {
-      return res.status(500).json({ error: 'Server error' });
-    }
-
-    if (!isMatch) {
-      // Password does not match
-      console.log('Incorrect password');
-      return res.status(401).json({ error: 'Incorrect password' });
-    }
-
-    // Authentication successful
-    console.log('Authentication successful');
-    res.json({ message: 'Authentication successful', user });
-  });
 });
 
-// PUT endpoint for updating user password
-app.put('/update-password', [
-  check('email').isEmail(),
-  check('newPassword').isLength({ min: 6 })
-], (req, res) => {
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) {
-    return res.status(400).json({ errors: errors.array() });
+// Define the /plants route directly in server.js
+app.get('/plants', async (req, res) => {
+  try {
+    const plants = await Plant.find(); // Fetch all plants from the database
+    res.json(plants); // Send the fetched plants as JSON response
+  } catch (error) {
+    console.error('Error fetching plants:', error);
+    res.status(500).json({ error: 'Internal server error' }); // Send 500 error response if there's an error
   }
+});
 
-  const { email, newPassword } = req.body;
-  console.log('Received email for update:', email);
-  console.log('Received new password:', newPassword);
-
-  // Find user by email
-  const user = users.find(user => user.email === email);
-
-  if (!user) {
-    // User not found
-    console.log('User not found for update');
-    return res.status(404).json({ error: 'User not found' });
+// POST endpoint to create a new plant
+app.post('/plants', async (req, res) => {
+  try {
+    // Create a new plant based on the request body
+    const newPlant = new Plant(req.body);
+    // Save the new plant to the database
+    const savedPlant = await newPlant.save();
+    res.status(201).json(savedPlant); // Send the saved plant as JSON response with status 201 (Created)
+  } catch (error) {
+    console.error('Error creating plant:', error);
+    res.status(500).json({ error: 'Internal server error' }); // Send 500 error response if there's an error
   }
-
-  // Hash the new password
-  bcrypt.hash(newPassword, 10, (err, hashedPassword) => {
-    if (err) {
-      return res.status(500).json({ error: 'Server error' });
-    }
-
-    // Update user password
-    user.password = hashedPassword;
-
-    console.log('Password updated successfully');
-    res.json({ message: 'Password updated successfully' });
-  });
 });
 
 const server = app.listen(PORT, () => {

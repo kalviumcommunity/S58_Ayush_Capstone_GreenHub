@@ -7,7 +7,7 @@ const plantSchema = new mongoose.Schema({
   price: { type: Number, required: true },
   category: { type: String, required: true },
   in_stock: { type: Boolean, default: true },
-  image: { type: String, required: true } // Add the image field
+  imageUrl: { type: String, required: true } // Add the image field
 });
 
 // Create the model
